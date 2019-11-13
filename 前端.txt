@@ -1,0 +1,112 @@
+﻿1.ElementId转ElementHandle
+DgnProjectP->getelementid
+ElementHandle elementhandle(elementId,project->GetDgnFile())
+2.ElementId转EditElementHandle
+EditelemetnHandle EHH(eleId,DgnModelp)
+3.取project
+DgnProjectR project = *MobileDgnApplication::App().Project();
+4.取IndexedViewportP
+IndexedViewportP m_IndexedViewportPtr;
+m_IndexedViewportPtr = ev.GetViewport();
+5.ElementRefP
+DgnProjectP = ElementRefP->GetDgnProject();
+ElemetnId = ElementRefP->GetElemetnId();
+DgnModelP = ElementRefP->GetDgnModelP();
+6.IPBObjectPtr 转 类指针
+classptr = dynamic_cast<class>IPBObjectPtr
+7.IECInstancePtr 从 ECInstanceKey
+ObjectUtil::GetInstanceFromKey(key,*project);
+8.ECInstanceKey 转 EditElementHandle
+ECInstanceKey it;
+ElementId elemId;
+DgnECPersistence::GetElementWithPrimaryInstance(elemId, it, *project);
+ElementRefPtr tmpElmentRef = project->GetDgnFile().GetElementById(elemId);
+ElementHandle elem(tmpElmentRef.get());
+9.射线穿包围盒
+					if (IsRule)
+					{
+						DRange3d range;
+						solidPrimitive->GetRange(range);
+						double param0, param1;
+						DPoint3d point0, point1;
+						DVec3d vRayN = BoltDir.direction;
+						vRayN.Normalize();
+						//DPoint3d ray_origin = DPoint3d::FromSumOf(BoltDir.origin,vRayN,-DBL_MAX);
+						if (range.IntersectRay(param0, param1, point0, point1, BoltDir.origin, BoltDir.direction))
+						{
+							double dis1, dis2;
+							DVec3d vectemp1, vectemp2;
+							vectemp1 = DVec3d::FromStartEnd(point0, OriginPt);
+							vectemp2 = DVec3d::FromStartEnd(point1, OriginPt);
+							DVec3d vecNegtive;
+							//= DVec3d::FromScale(BoltDir.direction, -1);
+							vecNegtive = BoltDir.direction;
+							dis1 = vecNegtive.DotProduct(vectemp1);
+							dis2 = vecNegtive.DotProduct(vectemp2);
+							if (fabs(dis1)<=CutLength*0.5)//和cutlength做比较，如果大于0.5*cutlength就排除。
+							{
+								max_distoPlane = dis1;
+								min_distoPlane = dis1;
+								firstSetFlag = false;
+							}
+							if (fabs(dis2)<=CutLength*0.5)
+							{
+								max_distoPlane = dis2;
+								min_distoPlane = dis2;
+								firstSetFlag = false;
+							}
+							if (fabs(dis1) <= CutLength*0.5)
+							{
+								if (max_distoPlane < dis1)
+								{
+									max_distoPlane = dis1;
+								}
+								if (min_distoPlane > dis1)
+								{
+									min_distoPlane = dis1;
+								}
+							}
+							if (fabs(dis2) <= CutLength*0.5)
+							{
+								if (max_distoPlane < dis2)
+								{
+									max_distoPlane = dis2;
+								}
+								if (min_distoPlane > dis2)
+								{
+									min_distoPlane = dis2;
+								}
+							}
+							
+						}
+						/ *bvector<SolidLocationDetail::FaceIndices> indices;
+						dngruleData.GetFaceIndices(indices);
+						for each(SolidLocationDetail::FaceIndices fIdx in indices)
+						{
+							IGeometryPtr geomPtr = dngruleData.GetFace(fIdx);
+							if (geomPtr.IsValid())
+							{
+								CurveVectorPtr cv = geomPtr->GetAsCurveVector();
+								if (cv.IsValid())
+								{
+									DRange1d range1d = cv->ProjectedParameterRange(BoltDir);
+									//double rangeLength = range1d.Length();
+									if (fabs(range1d.Length())<1e-3)
+									{
+										double rangeLength = -range1d.Low();
+										if (max_distoPlane < rangeLength)
+										{
+											max_distoPlane = rangeLength;
+										}
+										if (min_distoPlane > rangeLength)
+										{
+											min_distoPlane = rangeLength;
+										}
+									}
+								}
+							}
+						}* /
+
+					}*/
+10. #define DEFINE_T_SUPER(B) private: typedef B T_Super; public:
+    DEFINE_T_SUPER(PBPS_Components);
