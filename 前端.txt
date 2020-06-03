@@ -110,3 +110,5 @@ ElementHandle elem(tmpElmentRef.get());
 					}*/
 10. #define DEFINE_T_SUPER(B) private: typedef B T_Super; public:
     DEFINE_T_SUPER(PBPS_Components);
+11.https://www.php.cn/course/801.html PHP
+12.https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2013/se881ay9(v=vs.120) 
